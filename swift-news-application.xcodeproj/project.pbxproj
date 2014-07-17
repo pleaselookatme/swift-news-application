@@ -397,6 +397,7 @@
 				A48734BA197220AC00C0210D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		A48734BB197220AC00C0210D /* Build configuration list for PBXNativeTarget "swift-news-applicationTests" */ = {
 			isa = XCConfigurationList;
@@ -405,6 +406,7 @@
 				A48734BD197220AC00C0210D /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
