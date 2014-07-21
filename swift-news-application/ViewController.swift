@@ -9,25 +9,39 @@
 import UIKit
 import Foundation
 
-class ViewController: UIViewController, NSXMLParserDelegate {
+class ViewController: UIViewController, NSXMLParserDelegate, UITableViewDelegate, UITableViewDataSource {
     
     @IBOutlet var blog_area: UITableView
     
-    var rssList:NSMutableArray!
-    var element:NSString!
+    var rssList = String[]()
+    var element:String = ""
     
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view, typically from a nib.
         // rssデータを取得する処理
-        let url : NSURL = NSURL(string: "http://feeds.feedburner.com/hatena/b/hotentry")
+        let url : NSURL = NSURL(string: "http://rss.dailynews.yahoo.co.jp/fc/entertainment/rss.xml")
         
         // rssデータ取得
         let myparser:NSXMLParser = NSXMLParser(contentsOfURL:url)
         myparser.delegate = self
         myparser.parse()
+        
+        //tableViewに表示
+        blog_area.delegate = self
+        blog_area.dataSource = self
     }
-
+    
+    func tableView(tableView: UITableView!, numberOfRowsInSection section: Int) -> Int  {
+        return rssList.count
+    }
+    
+    func tableView(tableView: UITableView?, cellForRowAtIndexPath indexPath:NSIndexPath!) -> UITableViewCell! {
+        let cell: UITableViewCell = UITableViewCell(style: UITableViewCellStyle.Subtitle, reuseIdentifier: "Cell")
+        cell.text = rssList[indexPath.row]
+        return cell;
+    }
+    
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
@@ -35,20 +49,17 @@ class ViewController: UIViewController, NSXMLParserDelegate {
     
     // 解釈開始時
     func parserDidStartDocument (parser:NSXMLParser) {
-        rssList = NSMutableArray()
-        element = NSString()
     }
     
     // 要素の開始時
     func parser(parser: NSXMLParser!, didStartElement elementName: String!, namespaceURI: String!, qualifiedName: String!, attributes attributeDict: NSDictionary!) {
         element = elementName
-        
     }
     
     // 要素の内容参照
     func parser(parser: NSXMLParser!, foundCharacters string : String!){
-        if element.isEqualToString("title") {
-            rssList.addObject(string)
+        if element == "title" && !string.isEmpty {
+            rssList.append(string)
         }
     }
     
